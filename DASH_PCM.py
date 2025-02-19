@@ -3,6 +3,7 @@ from dash import dcc, html, dash_table, Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import os
 
 # Création du DataFrame
 data = {
