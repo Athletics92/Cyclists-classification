@@ -1,0 +1,1 @@
+web: gunicorn DASH_PCM:app.server --bind 0.0.0.0:10000
