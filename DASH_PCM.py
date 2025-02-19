@@ -38,6 +38,9 @@ app.layout = html.Div([
     )
 ])
 
-# Exécuter l'application (sans debug=True)
-if __name__ == '__main__':
-    app.run_server(host="0.0.0.0", port=10000)
+# Récupération du port depuis Render (ou 8050 par défaut en local)
+port = int(os.environ.get("PORT", 8050))
+
+# Exécution de l'application
+if __name__ == "__main__":
+    app.run_server(debug=False, host="0.0.0.0", port=port)
