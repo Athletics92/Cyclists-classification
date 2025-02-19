@@ -31,9 +31,21 @@ data = {
 
 df = pd.DataFrame(data)
 
+df=df[['IDcyclist','Nom','Prenom','Prenom_nom','ID_team','fklDregion','Date_de_naissance','Popularite','value_f_potentiel','taille_coureur','poids_coureur','carac_plaine','carac_montagne','carac_descente','carac_paves','carac_clm','carac_prologue','carac_sprint','carac_acceleration','carac_endurance','carac_resistance','carac_recuperation','carac_vallon','carac_baroudeur','prendra_sa_retraite','Coureur_champion','gene_ilist_flkDfavorite_races','value_i_yearneopro','gene_i_nb_victory','gene_i_nb_tdf','gene_i_nb_giro','gene_i_nb_vuelta','gene_i_nb_sanremo','gene_i_nb_flandres','gene_i_nb_roubaix','gene_i_nb_liege','gene_i_nb_lombardia']]
+
 # Convertir Date_de_naissance en format date YYYY-MM-DD
-df["Date_de_naissance"] = pd.to_datetime(df["Date_de_naissance"], origin='1899-12-30', unit='D')
-df["Date_de_naissance"] = df["Date_de_naissance"].dt.strftime('%Y-%m-%d')
+df["Date_de_naissance"] = pd.to_datetime(df["Date_de_naissance"])
+#df["Date_de_naissance"] = df["Date_de_naissance"].dt.strftime('%Y-%m-%d')
+
+# Calcul du niveau moyen par coureur
+df["carac_moy"]=round(((df['carac_plaine'] + df['carac_montagne'] + df['carac_descente'] +
+df['carac_paves'] + df['carac_clm'] + df['carac_prologue'] + df['carac_sprint'] +
+df['carac_acceleration'] + df['carac_endurance'] + df['carac_resistance'] + 
+df['carac_recuperation'] + df['carac_vallon'] + df['carac_baroudeur'])/(13)),2)
+
+print(df.shape)
+print(df["Date_de_naissance"].dtype)
+df.head()
 
 df["carac_moy"] = df.iloc[:, 5:].mean(axis=1).round(2)  # Moyenne des caractéristiques
 
