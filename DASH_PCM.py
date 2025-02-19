@@ -30,6 +30,11 @@ data = {
 }
 
 df = pd.DataFrame(data)
+
+# Convertir Date_de_naissance en format date YYYY-MM-DD
+df["Date_de_naissance"] = pd.to_datetime(df["Date_de_naissance"], origin='1899-12-30', unit='D')
+df["Date_de_naissance"] = df["Date_de_naissance"].dt.strftime('%Y-%m-%d')
+
 df["carac_moy"] = df.iloc[:, 5:].mean(axis=1).round(2)  # Moyenne des caractéristiques
 
 # Initialisation de l'application Dash
