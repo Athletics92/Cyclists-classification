@@ -34,59 +34,60 @@ df["carac_moy"] = df.iloc[:, 5:].mean(axis=1).round(2)  # Moyenne des caractéri
 # Initialisation de l'application Dash
 app = dash.Dash(__name__)
 
-# Mise en page de l'application
 app.layout = html.Div([
-    html.H1("📊 Dashboard des Cyclistes"),
+    html.H1("📊 Dashboard des Cyclistes", style={"textAlign": "center", "color": "white"}),
     
-    # Sélecteur d'ID Cyclist
     dcc.Dropdown(
         id="cyclist-dropdown",
         options=[{"label": f"{row.Prenom_nom} ({row.IDcyclist})", "value": row.IDcyclist} for _, row in df.iterrows()],
-        value=df.loc[0, "IDcyclist"],  # Valeur par défaut
-        clearable=False
+        value=df.loc[0, "IDcyclist"],
+        clearable=False,
+        style={"width": "50%", "margin": "auto"}
     ),
-
-    # Tableau des 5 premières lignes
+    
     dash_table.DataTable(
         id="table-data",
-        data=df.head(5).to_dict("records"),
+        data=df.to_dict("records"),
         columns=[{"name": col, "id": col} for col in df.columns],
-        page_size=5,
+        page_size=5,  # ✅ Limitation à 5 lignes affichées
         style_table={"overflowX": "auto"},
         style_header={"backgroundColor": "lightgrey", "fontWeight": "bold"},
         style_cell={"textAlign": "left"}
     ),
-    
-    # Graphique radar
-    dcc.Graph(id="radar-chart"),
-    
-    # Encadré Profil Cycliste
-    html.Div(id="profile-card", style={"border": "1px solid black", "padding": "10px", "margin-top": "20px"})
-])
 
-# Callback pour mettre à jour le graphique radar et l'encart profil
+    dcc.Graph(id="radar-chart"),
+
+    html.Div(id="profile-card", style={
+        "backgroundColor": "#065464",  # ✅ Fond bleu foncé
+        "padding": "20px",
+        "borderRadius": "10px",
+        "color": "white",
+        "width": "50%",
+        "margin": "auto",
+        "marginTop": "20px",
+        "textAlign": "center"
+    })
+], style={"backgroundColor": "#85c3cf", "padding": "20px", "minHeight": "100vh"})
+
 @app.callback(
     [Output("radar-chart", "figure"), Output("profile-card", "children")],
     [Input("cyclist-dropdown", "value")]
 )
 def update_chart_and_profile(selected_id):
     cyclist_data = df[df["IDcyclist"] == selected_id].iloc[0]
-    
-    # Graphique Radar
     categories = ["carac_plaine", "carac_montagne", "carac_paves", "carac_clm", "carac_sprint", "carac_endurance"]
     values = cyclist_data[categories].tolist()
-    values += values[:1]  # Boucler sur le premier point pour fermer le radar
+    values += values[:1]
 
     fig = go.Figure()
     fig.add_trace(go.Scatterpolar(
         r=values,
-        theta=categories + [categories[0]],  # Boucle sur la première valeur
+        theta=categories + [categories[0]],
         fill="toself",
         name=f"{cyclist_data.Prenom_nom}"
     ))
     fig.update_layout(polar=dict(radialaxis=dict(visible=True)), showlegend=True)
 
-    # Encadré Profil
     profile_info = html.Div([
         html.H3(f"Profil : {cyclist_data.Prenom_nom}"),
         html.P(f"🏆 Équipe : {cyclist_data.ID_team}"),
