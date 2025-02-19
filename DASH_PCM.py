@@ -38,9 +38,11 @@ app.layout = html.Div([
     )
 ])
 
-# Récupération du port depuis Render (ou 8050 par défaut en local)
+# Définir server pour Gunicorn
+server = app.server  
+
+# Récupération du port attribué par Render (ou 8050 par défaut en local)
 port = int(os.environ.get("PORT", 8050))
 
-# Exécution de l'application
 if __name__ == "__main__":
     app.run_server(debug=False, host="0.0.0.0", port=port)
