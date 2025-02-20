@@ -28,7 +28,7 @@ if not os.path.exists(file_path):
 df = pd.read_excel(file_path, sheet_name="CYCLISTS")
 
 
-df["Age"] =(round((datetime.now() - df["Date_de_naissance"]) / np.timedelta64(1, 'Y'),2)).astype(int)
+df["Age"] =(((pd.to_datetime("today") - pd.to_datetime(df["Date_de_naissance"])).dt.days) / 365.25).astype(int)
 df["Annees_exp"]=int(current_year)-df["value_i_yearneopro"]
 df.head()
 
