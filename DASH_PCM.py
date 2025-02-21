@@ -157,12 +157,11 @@ def update_radar_and_profile(selected_cyclist):
                               plot_bgcolor='#f0f0f0', paper_bgcolor='#f0f0f0')
 
     profile_card = html.Div([
-        html.H4(f"Profil de {selected_cyclist}", style={'marginBottom': '5px'}),
-            html.P(f"Équipe : {cyclist_data['ID_team']}", style={'marginBottom': '2px'}),
-            html.P(f"Age : {cyclist_data['Age']}", style={'marginBottom': '2px'}),
-            html.P(f"Années d'expérience : {cyclist_data['Annees_exp']}", style={'marginBottom': '2px'}),
-            html.P(f"Popularité : {cyclist_data['Popularite']}", style={'marginBottom': '2px'}),
-            html.P(f"Caractéristique moyenne : {cyclist_data['carac_moy']}", style={'marginBottom': '2px'})
+        html.H4(f"Profil de {selected_cyclist}"),
+        html.P(f"Équipe : {cyclist_data['ID_team']}"),
+        html.P(f"Popularité : {cyclist_data['Popularite']}"),
+        html.P(f"Caractéristique moyenne : {cyclist_data['carac_moy']}"),
+        html.Img(src=image_path, style={'height': '100px', 'borderRadius': '10px'})
     ])
 
     return radar_chart, profile_card
