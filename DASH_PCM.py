@@ -57,26 +57,44 @@ df.head()
 # Calcul des moyennes globales de toutes les caractéristiques
 moyennes_globale = df[["carac_plaine", "carac_montagne", "carac_paves", "carac_clm", "carac_sprint", "carac_endurance"]].mean().tolist()
 
+# Dictionnaire des images des équipes
+team_images = {
+    "Groupama - FDJ": "/assets/groupama_fdj.jpg",
+    "AG2R Citroën Team": "/assets/ag2r.jpg",
+    "Team Arkéa - Samsic": "/assets/arkea.jpg",
+    "Astana Qazaqstan Team": "/assets/astana.jpg",
+    "Movistar Team": "/assets/movistar.jpg",
+    "Alpecin-Deceuninck": "/assets/Alpecin-Deceuninck.jpg",
+    "B&B HOTELS KTM": "/assets/b&b.jpg",
+    "BORA - hansgrohe": "/assets/BORA_hansgrohe.jpg",
+    "Bahrain Victorious": "/assets/bahrain_victorious.jpg",
+    "Caja Rural - Seguros RGA": "/assets/Caja_Rural.jpg",
+    "Cofidis": "/assets/cofidis.jpg",
+    "EF Education-EasyPost": "/assets/education_first.jpg",
+    "INEOS Grenadiers": "/assets/ineos.jpg",
+    "Intermarché-Wanty-Gobert Matériaux": "/assets/intermarche_wanty.jpg",
+    "Israël - Premier Tech": "/assets/israel_premier_tech.jpg",
+    "Team BikeExchange - Jayco": "/assets/Jayco.jpg",
+    "Team Jumbo - Visma": "/assets/jumbo_visma.jpg",
+    "Lotto Soudal": "/assets/lotto_soudal.jpg",
+    "Quick-Step - Alpha Vinyl": "/assets/quick_step.jpg",
+    "Team DSM": "/assets/Team_DSM.jpg",
+    "Trek - Segafredo": "/assets/trek_segafredo.jpg",
+    "UAE Team Emirates": "/assets/UAE.jpg",
+    "Team TotalEnergies": "/assets/TotalEnergies.jpg",
+    "Uno-X Pro Cycling Team": "/assets/uno_x.jpg",
+    "Burgos HD": "/assets/burgos.jpg",
+    "Euskaltel - Euskadi": "/assets/Euskaltel.jpg",
+}
+
 # Création de l'application Dash
 app = dash.Dash(__name__)
 
-# Mise en page de l'application avec image de fond
-app.layout = html.Div(style={
-    'backgroundColor': '#f0f0f0',  # Fond gris clair pour toute la page
-    'height': '100vh',  # Pleine hauteur de la page
-    'padding': '20px'
-}, children=[
+app.layout = html.Div(style={'backgroundColor': '#f0f0f0', 'height': '100vh', 'padding': '20px'}, children=[
 
-    # Nouveau titre global pour le report (plus petit et plus proche du haut)
-    html.H1("Outil de profil des coureurs cyclistes", 
-            style={
-                'textAlign': 'center', 
-                'color': 'black', 
-                'fontSize': '24px',  # Réduire la taille du titre
-                'marginTop': '10px'   # Réduire la marge au-dessus
-            }),
+    html.H1("Outil de profil des coureurs cyclistes", style={'textAlign': 'center', 'color': 'black', 
+                                                             'fontSize': '24px', 'marginTop': '10px'}),
 
-    # Tableau interactif filtrable
     dash_table.DataTable(
         id='table-data',
         data=df.to_dict('records'),
@@ -85,16 +103,14 @@ app.layout = html.Div(style={
         sort_action="native",
         filter_action="native",
         style_table={'width': '100%', 'marginBottom': '20px'},
-        style_header={'backgroundColor': '#d3d3d3', 'fontWeight': 'bold'},  # Gris pour l'en-tête
+        style_header={'backgroundColor': '#d3d3d3', 'fontWeight': 'bold'},
         style_cell={'textAlign': 'left', 'fontSize': '12px', 'padding': '5px'}
     ),
 
     html.Br(),
 
-    # Disposition Radar à gauche et Profil à droite
     html.Div(style={'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center'}, children=[
 
-        # Partie Gauche : Graphique Radar (moins haut)
         html.Div(style={'width': '45%'}, children=[
             dcc.Dropdown(
                 id='cyclist-dropdown',
@@ -103,70 +119,49 @@ app.layout = html.Div(style={
                 clearable=False,
                 style={'fontSize': '12px', 'width': '100%'}
             ),
-            dcc.Graph(id='radar-chart', style={'height': '250px'})  # Réduire la hauteur du radar
+            dcc.Graph(id='radar-chart', style={'height': '250px'})
         ]),
 
-        # Partie Droite : Encart Profil (fond semi-transparent)
         html.Div(id='profil-card', style={
-            'width': '45%', 'backgroundColor': 'rgba(6, 84, 100, 0.8)',  # Semi-transparent
+            'width': '45%', 'backgroundColor': 'rgba(6, 84, 100, 0.8)',
             'padding': '10px', 'borderRadius': '10px', 'color': 'white',
             'fontSize': '12px', 'textAlign': 'left'
         })
     ])
 ])
 
-# Callback pour mettre à jour le graphique Radar et le Profil
+
 @app.callback(
-    [dash.dependencies.Output('radar-chart', 'figure'),
-     dash.dependencies.Output('profil-card', 'children')],
-    [dash.dependencies.Input('cyclist-dropdown', 'value')]
+    [Output('radar-chart', 'figure'),
+     Output('profil-card', 'children')],
+    [Input('cyclist-dropdown', 'value')]
 )
 def update_radar_and_profile(selected_cyclist):
     cyclist_data = df[df["Prenom_nom"] == selected_cyclist].iloc[0]
-
+    
     categories = ["carac_plaine", "carac_montagne", "carac_paves", "carac_clm", "carac_sprint", "carac_endurance"]
     values = [cyclist_data[cat] for cat in categories]
-
-    # Utilisation des moyennes globales pour le second niveau (moyennes de tous les coureurs)
     values_moyenne = moyennes_globale
 
-    # Graphique Radar
+    # Sélection de l'image de l'équipe ou image par défaut
+    image_path = team_images.get(cyclist_data["ID_team"], "/assets/logo_uci.jpg")
+
     radar_chart = go.Figure()
-
-    # Ajouter la ligne pour le coureur sélectionné
-    radar_chart.add_trace(go.Scatterpolar(
-        r=values + [values[0]],
-        theta=categories + [categories[0]],
-        fill='toself',
-        name=f'{selected_cyclist} (Coureur)',
-        line=dict(color='blue')
-    ))
-
-    # Ajouter la ligne pour la moyenne globale
-    radar_chart.add_trace(go.Scatterpolar(
-        r=values_moyenne + [values_moyenne[0]],
-        theta=categories + [categories[0]],
-        fill='toself',
-        name='Moyenne Globale',
-        line=dict(color='red', dash='dot')
-    ))
-
-    radar_chart.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
-        showlegend=True,
-        margin=dict(l=20, r=20, t=20, b=20),
-        plot_bgcolor='#f0f0f0',  # Fond gris clair pour l'intérieur du radar
-        paper_bgcolor='#f0f0f0',  # Fond gris clair pour la zone extérieure du radar
-        legend=dict(x=0.85, y=0.95)  # Position de la légende
-    )
+    radar_chart.add_trace(go.Scatterpolar(r=values + [values[0]], theta=categories + [categories[0]], 
+                                          fill='toself', name=f'{selected_cyclist}', line=dict(color='blue')))
+    radar_chart.add_trace(go.Scatterpolar(r=values_moyenne + [values_moyenne[0]], theta=categories + [categories[0]], 
+                                          fill='toself', name='Moyenne Globale', line=dict(color='red', dash='dot')))
+    
+    radar_chart.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+                              showlegend=True, margin=dict(l=20, r=20, t=20, b=20),
+                              plot_bgcolor='#f0f0f0', paper_bgcolor='#f0f0f0')
 
     profile_card = html.Div([
-        html.H4(f"Profil de {selected_cyclist}", style={'marginBottom': '5px'}),
-        html.P(f"Équipe : {cyclist_data['ID_team']}", style={'marginBottom': '2px'}),
-        html.P(f"Age : {cyclist_data['Age']}", style={'marginBottom': '2px'}),
-        html.P(f"Annees d'expérience : {cyclist_data['Annees_exp']}", style={'marginBottom': '2px'}),
-        html.P(f"Popularité : {cyclist_data['Popularite']}", style={'marginBottom': '2px'}),
-        html.P(f"Caractéristique moyenne : {cyclist_data['carac_moy']}", style={'marginBottom': '2px'})
+        html.H4(f"Profil de {selected_cyclist}"),
+        html.P(f"Équipe : {cyclist_data['ID_team']}"),
+        html.P(f"Popularité : {cyclist_data['Popularite']}"),
+        html.P(f"Caractéristique moyenne : {cyclist_data['carac_moy']}"),
+        html.Img(src=image_path, style={'height': '100px', 'borderRadius': '10px'})
     ])
 
     return radar_chart, profile_card
