@@ -159,6 +159,8 @@ def update_radar_and_profile(selected_cyclist):
     profile_card = html.Div([
         html.H4(f"Profil de {selected_cyclist}"),
         html.P(f"Équipe : {cyclist_data['ID_team']}"),
+        html.P(f"Age : {cyclist_data['Age']}", style={'marginBottom': '2px'}),
+        html.P(f"Années d'expérience : {cyclist_data['Annees_exp']}", style={'marginBottom': '2px'}),
         html.P(f"Popularité : {cyclist_data['Popularite']}"),
         html.P(f"Caractéristique moyenne : {cyclist_data['carac_moy']}"),
         html.Img(src=image_path, style={'height': '100px', 'borderRadius': '10px'})
