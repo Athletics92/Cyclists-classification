@@ -100,7 +100,7 @@ palmares["Idpalmares_label"] = palmares["Idpalmares_type"].map(palmares_labels)
 palmares["value_i_rank_lbl"] = palmares["value_i_rank"].apply(lambda x: "Vainqueur " if x == 1 else f"{x}ème ")
 
     # Phrase à afficher dans le Dash
-palmares["palmares_lbl"] = palmares["value_i_rank_lbl"] + palmares["Idpalmares_label"] + palmares["ID_race"] + " " + + palmares["Annee"].astype(str)
+palmares["palmares_lbl"] = palmares["value_i_rank_lbl"] + palmares["Idpalmares_label"] + palmares["ID_race"] + " " + palmares["Annee"].astype(str)
 
 print(palmares.shape)
 palmares.head()
