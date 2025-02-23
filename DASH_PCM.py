@@ -237,7 +237,7 @@ team_images = {
 app = dash.Dash(__name__)
 
 background_image = dash.get_asset_url("fonds_page.jpeg")
-uci_logo = dash.get_asset_url("uci.png")
+uci_logo = dash.get_asset_url("logo_uci.jpg")
 
 app.layout = html.Div(
     style={
@@ -268,7 +268,7 @@ app.layout = html.Div(
                 html.Div(id="cyclist-info", style={'display': 'flex', 'gap': '10px', 'flex-wrap': 'wrap'}),
 
                 # Image du coureur
-                html.Img(id="team-logo", src="", style={'height': '80px', 'border-radius': '10px'})
+                html.Img(id="team-logo", src="", style={'height': '80px','border-radius': '10px','position': 'relative','right': '80px'})
             ]
         ),
 
