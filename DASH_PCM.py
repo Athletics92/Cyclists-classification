@@ -274,7 +274,7 @@ app.layout = html.Div(
 
         # Menus déroulants pour filtrer et sélectionner un coureur
         html.Div(
-            style={'display': 'flex', 'justifyContent': 'center', 'gap': '20px', 'margin-bottom': '20px', 'margin-left': '50px'},
+            style={'display': 'flex', 'justifyContent': 'center', 'gap': '20px', 'margin-bottom': '20px', 'margin-left': '200px'},
             children=[
                 # Filtre par type de coureur
                 dcc.Dropdown(
