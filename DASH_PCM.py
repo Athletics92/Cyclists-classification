@@ -238,7 +238,7 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div(
     style={
-        'background-image': 'url("/assets/fonds_page.jpeg")',
+        'background-image': 'url("fonds_page.jpeg")',
         'background-size': 'cover',
         'background-position': 'center',
         'height': '100vh',
@@ -382,7 +382,7 @@ def update_bandeau(selected_cyclist):
         cyclist_data = df.iloc[0]  # Par défaut, premier coureur du DataFrame
 
     # Charger l'image de l'équipe
-    team_image_path = f"/assets/{team_images.get(cyclist_data['ID_team'], 'logo_uci.jpg')}"
+    team_image_path = dash.get_asset_url(team_images.get(cyclist_data['ID_team'], 'logo_uci.jpg'))
 
     info_block = [
         html.Span(f"🏆 {cyclist_data['Idpalmares_cyclist']} | ", style={'font-size': '18px', 'font-weight': 'bold'}),
