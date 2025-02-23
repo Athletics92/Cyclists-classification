@@ -296,7 +296,7 @@ app.layout = html.Div(
 
         # Tableau des statistiques du coureur sélectionné
         html.Div(
-            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '140px'},
+            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '200px'},
             children=[
                 dash_table.DataTable(
                     id='cyclist-table',
@@ -330,7 +330,7 @@ app.layout = html.Div(
             style={
                 'position': 'absolute',  # Position fixe en bas à droite
                 'bottom': '0px',
-                'right': '10px',
+                'right': '100px',
                 'width': '350px',  # Taille réduite
                 'height': '250px',
                 'backgroundColor': 'black',  # Fond noir
