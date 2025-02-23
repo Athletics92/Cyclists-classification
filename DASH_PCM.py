@@ -209,7 +209,7 @@ team_images = {
         "Movistar Team": "movistar.jpg",
         "Alpecin-Deceuninck": "Alpecin-Deceuninck.jpg",
         "B&B HOTELS KTM": "b&b.jpg",
-        "BORA - hansgrohe": "BORA_hansgrohe.jpg",
+        "BORA - hansgrohe": "BORA - hansgrohe.jpg",
         "Bahrain Victorious": "bahrain_victorious.jpg",
         "Caja Rural - Seguros RGA": "Caja_Rural.jpg",
         "Cofidis": "cofidis.jpg",
@@ -296,7 +296,7 @@ app.layout = html.Div(
 
         # Tableau des statistiques du coureur sélectionné
         html.Div(
-            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '120px'},
+            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '80px'},
             children=[
                 dash_table.DataTable(
                     id='cyclist-table',
