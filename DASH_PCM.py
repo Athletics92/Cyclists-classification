@@ -258,7 +258,7 @@ uci_logo = dash.get_asset_url("logo_uci.jpg")
 
 app.layout = html.Div(
     style={
-        'background-image': 'url("/assets/fonds_page.jpeg")',
+        'background-image': f'url("{background_image}")',
         'background-size': 'cover',
         'background-position': 'center',
         'height': '100vh',
@@ -276,56 +276,29 @@ app.layout = html.Div(
                 'color': 'white',
                 'padding': '10px',
                 'border-radius': '10px',
-                'margin-bottom': '20px',
-                'flex-wrap': 'wrap',  # Permet aux éléments de s’adapter aux petits écrans
-                '@media (max-width: 600px)': {
-                    'flex-direction': 'column',  # Passe en colonne sur mobile
-                    'align-items': 'center'  # Centre les éléments
-                }
+                'margin-bottom': '20px'
             },
             children=[
-                html.Img(src="/assets/uci.png", style={'height': '50px', 'margin-right': '20px'}),
+                html.Img(src=uci_logo, style={'height': '60px', 'margin-right': '20px'}),
 
                 # Bloc d'informations du coureur
                 html.Div(id="cyclist-info", style={'display': 'flex', 'gap': '10px', 'flex-wrap': 'wrap'}),
 
                 # Image du coureur
-                html.Img(
-                    id="team-logo",
-                    src="",
-                    style={
-                        'height': '80px',
-                        'border-radius': '10px',
-                        'position': 'relative',
-                        'right': '5vw',  # Ajustement dynamique
-                        'max-width': '100%',  # Empêche l’image de dépasser
-                        'height': 'auto'  # Ajuste la hauteur selon la largeur
-                    }
-                )
+                html.Img(id="team-logo", src="", style={'height': '80px','border-radius': '10px','position': 'relative','right': '100px'})
             ]
         ),
 
         # Menus déroulants pour filtrer et sélectionner un coureur
         html.Div(
-            style={
-                'display': 'flex',
-                'justifyContent': 'center',
-                'gap': '2vw',  # Espacement dynamique
-                'margin-bottom': '20px',
-                'flex-wrap': 'wrap',  # Permet aux menus de s’adapter aux petits écrans
-                '@media (max-width: 600px)': {  # Responsive pour mobile
-                    'flex-direction': 'column',  # Passe en colonne sur mobile
-                    'align-items': 'center',  # Centre les éléments
-                    'gap': '10px'  # Réduit l’espacement sur mobile
-                }
-            },
+            style={'display': 'flex', 'justifyContent': 'center', 'gap': '20px', 'margin-bottom': '20px', 'margin-left': '200px'},
             children=[
                 # Filtre par type de coureur
                 dcc.Dropdown(
                     id='filter-dropdown',
                     options=[{'label': label, 'value': label} for label in df['HAC_label'].unique()] + [{'label': "Tous les coureurs", 'value': "all"}],
                     placeholder="Filtrer par type de coureur...",
-                    style={'width': '40vw', 'min-width': '200px', 'max-width': '300px', 'color': 'black'}
+                    style={'width': '250px', 'color': 'black'}
                 ),
 
                 # Sélection d’un coureur
@@ -333,20 +306,14 @@ app.layout = html.Div(
                     id='cyclist-dropdown',
                     options=[{'label': name, 'value': name} for name in df['Idpalmares_cyclist'].unique()] + [{'label': "Tous les coureurs", 'value': "all"}],
                     placeholder="Sélectionner un coureur...",
-                    style={'width': '40vw', 'min-width': '200px', 'max-width': '300px', 'color': 'black'}
+                    style={'width': '250px', 'color': 'black'}
                 ),
             ]
         ),
 
         # Tableau des statistiques du coureur sélectionné
         html.Div(
-            style={
-                'display': 'flex',
-                'justifyContent': 'center',
-                'alignItems': 'center',
-                'margin': '20px 0',
-                'width': '100%',  # Prend toute la largeur disponible
-            },
+            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '300px'},
             children=[
                 dash_table.DataTable(
                     id='cyclist-table',
@@ -356,12 +323,7 @@ app.layout = html.Div(
                         {"name": "Courses favorites", "id": "gene_ilist_flkDfavorite_races"}
                     ],
                     data=df.iloc[:3].to_dict('records'),  # 3 premières lignes par défaut
-                    style_table={
-                        'width': '90vw',  # Largeur adaptative
-                        'max-width': '500px',  # Évite que ce soit trop large sur grand écran
-                        'overflowX': 'auto',  # Permet le défilement horizontal sur mobile
-                        'margin-top': '10px'
-                    },
+                    style_table={'width': '500px', 'margin-top': '10px'},
                     style_cell={
                         'textAlign': 'center',
                         'backgroundColor': 'black',
@@ -379,22 +341,22 @@ app.layout = html.Div(
                 ),
             ]
         ),
-        
         # Graphique Radar
+                # Graphique Radar
         html.Div(
             style={
-                'display': 'flex',
-                'justifyContent': 'center',  # Centre le graphique horizontalement
-                'alignItems': 'center',  # Centre verticalement
-                'width': '90vw',  # Largeur adaptative
-                'max-width': '350px',  # Évite que ce soit trop large sur grand écran
-                'height': 'auto',  # Taille flexible
-                'max-height': '300px',  # Évite que ça déborde sur mobile
+                'position': 'absolute',  # Position fixe en bas à droite
+                'bottom': '0px',
+                'right': '300px',
+                'width': '350px',  # Taille réduite
+                'height': '250px',
                 'backgroundColor': 'black',  # Fond noir
                 'padding': '10px',
                 'borderRadius': '10px',  # Coins arrondis
                 'boxShadow': '0px 0px 10px rgba(255, 255, 255, 0.3)',  # Légère ombre blanche
-                'margin': 'auto'  # Centre automatiquement sur mobile
+                'display': 'flex',
+                'justifyContent': 'center',
+                'alignItems': 'center'
             },
             children=[
                 dcc.Graph(
@@ -409,11 +371,10 @@ app.layout = html.Div(
         html.Div(
             id='palmares-box',
             style={
-                'display': 'flex',
-                'justifyContent': 'center',  # Centre l'encart horizontalement
-                'alignItems': 'center',  # Centre verticalement
-                'width': '90vw',  # Largeur adaptative
-                'max-width': '500px',  # Évite que ce soit trop large sur grand écran
+                'position': 'absolute',
+                'bottom': '0px',        # Aligné en bas
+                'left': '20px',        # Décalé pour être sous le radar
+                'width': '500px',        # Largeur ajustable
                 'backgroundColor': 'black',
                 'color': 'white',
                 'border': '2px solid white',
@@ -421,10 +382,7 @@ app.layout = html.Div(
                 'padding': '10px',
                 'textAlign': 'left',
                 'fontSize': '14px',
-                'whiteSpace': 'pre-line',  # Permet de garder les sauts de ligne
-                'margin': '10px auto',  # Centre automatiquement sur mobile
-                'max-height': '250px',  # Évite que ça déborde trop
-                'overflow-y': 'auto'  # Ajoute un scroll si le contenu est trop long
+                'whiteSpace': 'pre-line'  # Permet de garder les sauts de ligne
             }
         )
 
