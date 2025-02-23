@@ -43,7 +43,7 @@ df.head()
 
 # Affichage du libellé de la Région
 # Import du fichier Excel
-region = pd.read_excel("C:/Users/gaeta/Documents/03_ PYTHON/14_PROJET_PCM/02_INPUTS/_20230301_referentiel_pays.xlsx",sheet_name="Feuil1")
+region = pd.read_excel("02_INPUTS/_20230301_referentiel_pays.xlsx",sheet_name="Feuil1")
 
 print(region.shape)
 region.head()
