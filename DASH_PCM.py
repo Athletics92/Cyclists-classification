@@ -41,7 +41,24 @@ print(df.shape)
 df.head()
 
 
-df=df[['IDcyclist','Idpalmares_cyclist','Nom','Prenom','Prenom_nom','ID_team','Age','Annees_exp','fklDregion','Date_de_naissance','Popularite','value_f_potentiel','taille_coureur','poids_coureur','carac_plaine','carac_montagne','carac_descente','carac_paves','carac_clm','carac_prologue','carac_sprint','carac_acceleration','carac_endurance','carac_resistance','carac_recuperation','carac_vallon','carac_baroudeur','prendra_sa_retraite','Coureur_champion','gene_ilist_flkDfavorite_races','value_i_yearneopro','gene_i_nb_victory','gene_i_nb_tdf','gene_i_nb_giro','gene_i_nb_vuelta','gene_i_nb_sanremo','gene_i_nb_flandres','gene_i_nb_roubaix','gene_i_nb_liege','gene_i_nb_lombardia']]
+# Affichage du libellé de la Région
+# Import du fichier Excel
+region = pd.read_excel("C:/Users/gaeta/Documents/03_ PYTHON/14_PROJET_PCM/02_INPUTS/_20230301_referentiel_pays.xlsx",sheet_name="Feuil1")
+
+print(region.shape)
+region.head()
+
+
+df=pd.merge(df,region[["fklDregion","Pays_lbl"]],on="fklDregion",how="left")
+
+print(df.shape)
+df.head()
+
+
+
+
+df=df[['IDcyclist','Idpalmares_cyclist','Nom','Prenom','Prenom_nom','ID_team','Age','Annees_exp','fklDregion','Pays_lbl','Date_de_naissance','Popularite','value_f_potentiel','taille_coureur','poids_coureur','carac_plaine','carac_montagne','carac_descente','carac_paves','carac_clm','carac_prologue','carac_sprint','carac_acceleration','carac_endurance','carac_resistance','carac_recuperation','carac_vallon','carac_baroudeur','prendra_sa_retraite','Coureur_champion','gene_ilist_flkDfavorite_races','value_i_yearneopro','gene_i_nb_victory','gene_i_nb_tdf','gene_i_nb_giro','gene_i_nb_vuelta','gene_i_nb_sanremo','gene_i_nb_flandres','gene_i_nb_roubaix','gene_i_nb_liege','gene_i_nb_lombardia']]
+
 
 # Convertir Date_de_naissance en format date YYYY-MM-DD
 df["Date_de_naissance"] = pd.to_datetime(df["Date_de_naissance"], errors='coerce')
@@ -391,7 +408,7 @@ def update_bandeau(selected_cyclist):
         html.Span(f"🏆 {cyclist_data['Idpalmares_cyclist']} | ", style={'font-size': '18px', 'font-weight': 'bold'}),
         html.Span(f"🎂 {cyclist_data['Age']} ans | "),
         html.Span(f"⏳ {cyclist_data['Annees_exp']} ans exp. | "),
-        html.Span(f"🌍 {cyclist_data['fklDregion']} | "),
+        html.Span(f"🌍 {cyclist_data['Pays_lbl']} | "),
         html.Span(f"{cyclist_data['HAC_label']}")
     ]
 
