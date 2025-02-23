@@ -262,7 +262,7 @@ app.layout = html.Div(
                 'margin-bottom': '20px'
             },
             children=[
-                html.Img(src=uci_logo, style={'height': '50px', 'margin-right': '20px'}),
+                html.Img(src=uci_logo, style={'height': '60px', 'margin-right': '20px'}),
 
                 # Bloc d'informations du coureur
                 html.Div(id="cyclist-info", style={'display': 'flex', 'gap': '10px', 'flex-wrap': 'wrap'}),
@@ -296,7 +296,7 @@ app.layout = html.Div(
 
         # Tableau des statistiques du coureur sélectionné
         html.Div(
-            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '200px'},
+            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '300px'},
             children=[
                 dash_table.DataTable(
                     id='cyclist-table',
@@ -330,7 +330,7 @@ app.layout = html.Div(
             style={
                 'position': 'absolute',  # Position fixe en bas à droite
                 'bottom': '0px',
-                'right': '100px',
+                'right': '300px',
                 'width': '350px',  # Taille réduite
                 'height': '250px',
                 'backgroundColor': 'black',  # Fond noir
