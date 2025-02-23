@@ -62,7 +62,7 @@ df.head()
 
 # Conservation des coureurs avec segments calculés précédemment
 # Import du fichier Excel
-classif = pd.read_excel("C:/Users/gaeta/Documents/03_ PYTHON/14_PROJET_PCM/03_OUTPUTS/2025-02-20_classification_cyclists.xlsx",sheet_name="base")
+classif = pd.read_excel("03_OUTPUTS/2025-02-20_classification_cyclists.xlsx",sheet_name="base")
 
 print(classif.shape)
 classif.head()
