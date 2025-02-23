@@ -268,7 +268,7 @@ app.layout = html.Div(
                 html.Div(id="cyclist-info", style={'display': 'flex', 'gap': '10px', 'flex-wrap': 'wrap'}),
 
                 # Image du coureur
-                html.Img(id="team-logo", src="", style={'height': '80px','border-radius': '10px','position': 'relative','right': '80px'})
+                html.Img(id="team-logo", src="", style={'height': '80px','border-radius': '10px','position': 'relative','right': '100px'})
             ]
         ),
 
@@ -296,7 +296,7 @@ app.layout = html.Div(
 
         # Tableau des statistiques du coureur sélectionné
         html.Div(
-            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '60px'},
+            style={'display': 'flex', 'justifyContent': 'center','position': 'absolute','right': '140px'},
             children=[
                 dash_table.DataTable(
                     id='cyclist-table',
