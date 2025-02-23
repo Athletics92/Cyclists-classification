@@ -236,9 +236,11 @@ team_images = {
 # Création de l'application Dash
 app = dash.Dash(__name__)
 
+background_image = dash.get_asset_url("fonds_page.jpeg")
+
 app.layout = html.Div(
     style={
-        'background-image': 'url("fonds_page.jpeg")',
+        'background-image': f'url("{background_image}")',
         'background-size': 'cover',
         'background-position': 'center',
         'height': '100vh',
