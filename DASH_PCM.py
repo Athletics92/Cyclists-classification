@@ -258,75 +258,36 @@ uci_logo = dash.get_asset_url("logo_uci.jpg")
 
 app.layout = html.Div(
     style={
-        'background-image': 'url("/assets/fonds_page.jpeg")',
+        'background-image': f'url("{background_image}")',
         'background-size': 'cover',
         'background-position': 'center',
-        'background-attachment': 'scroll',  # Change "fixed" en "scroll" pour éviter le bug iPhone
-        'height': '100dvh',  # Utilise 100dvh au lieu de 100vh pour être dynamique sur iPhone
+        'height': '100vh',
         'width': '100vw',
-        'padding': '2vw',  
-        'overflow': 'auto',  
+        'padding': '20px'
     },
     children=[
         # Bandeau du haut
         html.Div(
-    style={
-        'display': 'flex',
-        'flex-direction': 'row',  # Alignement en ligne par défaut
-        'flex-wrap': 'wrap',  # Permet le passage à la ligne sur petits écrans
-        'alignItems': 'center',
-        'justifyContent': 'center',  # Centre les éléments sur mobile
-        'backgroundColor': '#333',
-        'color': 'white',
-        'padding': 'max(10px, 2vw)',  # Ajustement dynamique
-        'border-radius': '10px',
-        'margin-bottom': '20px',
-        'width': '95%',  
-        'max-width': '1200px',  
-        'margin': 'auto',  
-        'box-sizing': 'border-box',
-        'min-height': '15vh',  
-        'text-align': 'center'  
-    },
-    children=[
-        # Logo UCI
-        html.Img(
-            src="/assets/uci.png",
-            style={
-                'height': '50px',
-                'margin-right': '20px',
-                'max-width': '100%',  # Empêche le dépassement sur mobile
-                'flex-shrink': '0'  # Évite que l'image soit réduite à l'extrême
-            }
-        ),
-
-        # Bloc d'informations du coureur
-        html.Div(
-            id="cyclist-info",
             style={
                 'display': 'flex',
-                'gap': '10px',
-                'flex-wrap': 'wrap',
-                'justify-content': 'center',  # Centre les infos sur mobile
-                'width': '100%'  # Prend toute la largeur si besoin
-            }
-        ),
-
-        # Image du coureur
-        html.Img(
-            id="team-logo",
-            src="",
-            style={
-                'height': '80px',
+                'alignItems': 'center',
+                'justifyContent': 'space-between',
+                'backgroundColor': '#333',
+                'color': 'white',
+                'padding': '10px',
                 'border-radius': '10px',
-                'margin-left': 'auto',  # Permet un bon positionnement
-                'margin-right': 'auto',  # Centre l’image du coureur sur mobile
-                'max-width': '100%',  # Empêche l’image de dépasser sur mobile
-                'flex-shrink': '0'  # Empêche l’image d’être trop compressée
-            }
-        )
-    ]
-),
+                'margin-bottom': '20px'
+            },
+            children=[
+                html.Img(src=uci_logo, style={'height': '60px', 'margin-right': '20px'}),
+
+                # Bloc d'informations du coureur
+                html.Div(id="cyclist-info", style={'display': 'flex', 'gap': '10px', 'flex-wrap': 'wrap'}),
+
+                # Image du coureur
+                html.Img(id="team-logo", src="", style={'height': '80px','border-radius': '10px','position': 'relative','right': '100px'})
+            ]
+        ),
 
         # Menus déroulants pour filtrer et sélectionner un coureur
         html.Div(
