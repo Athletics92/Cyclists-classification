@@ -261,11 +261,11 @@ app.layout = html.Div(
         'background-image': 'url("/assets/fonds_page.jpeg")',
         'background-size': 'cover',
         'background-position': 'center',
-        'background-attachment': 'fixed',  # Fixe l’image de fond
-        'min-height': '100vh',  # Assure une hauteur minimale sans bug iPhone
-        'width': '100vw',  
-        'padding': '2vw',  # Adapte le padding à la taille de l’écran
-        'overflow': 'auto'  # Permet le scroll si nécessaire
+        'background-attachment': 'scroll',  # Change "fixed" en "scroll" pour éviter le bug iPhone
+        'height': '100dvh',  # Utilise 100dvh au lieu de 100vh pour être dynamique sur iPhone
+        'width': '100vw',
+        'padding': '2vw',  
+        'overflow': 'auto',  
     },
     children=[
         # Bandeau du haut
@@ -274,15 +274,17 @@ app.layout = html.Div(
                 'display': 'flex',
                 'alignItems': 'center',
                 'justifyContent': 'space-between',
-                'flex-wrap': 'wrap',  # Permet le passage à la ligne si nécessaire
+                'flex-wrap': 'wrap',  # Permet le passage à la ligne sur petits écrans
                 'backgroundColor': '#333',
                 'color': 'white',
-                'padding': '2vw',  # Adapte le padding selon l’écran
+                'padding': 'min(2vw, 15px)',  # S'adapte aux petits écrans sans trop réduire
                 'border-radius': '10px',
-                'margin-bottom': '20px',
-                'width': '100%',  # Prend toute la largeur
+                'margin-bottom': 'min(2vh, 15px)',  # Ajuste l'espacement en fonction de l'écran
+                'width': '90%',  # Laisse un peu d'espace sur les bords pour éviter les débordements
                 'max-width': '1200px',  # Évite une largeur excessive sur grand écran
-                'margin': 'auto'  # Centre l'élément dans la page
+                'margin': 'auto',  # Centre l'élément dans la page
+                'min-height': '10vh',  # Assure une hauteur minimale pour l'accessibilité
+                'box-sizing': 'border-box'  # Évite les problèmes de calcul de largeur sur mobile
     },
             children=[
                 html.Img(src=uci_logo, style={'height': '60px', 'margin-right': '20px'}),
