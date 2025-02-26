@@ -258,12 +258,14 @@ uci_logo = dash.get_asset_url("logo_uci.jpg")
 
 app.layout = html.Div(
     style={
-        'background-image': f'url("{background_image}")',
+        'background-image': 'url("/assets/fonds_page.jpeg")',
         'background-size': 'cover',
         'background-position': 'center',
-        'height': '100vh',
-        'width': '100vw',
-        'padding': '20px'
+        'background-attachment': 'fixed',  # Fixe l’image de fond
+        'min-height': '100vh',  # Assure une hauteur minimale sans bug iPhone
+        'width': '100vw',  
+        'padding': '2vw',  # Adapte le padding à la taille de l’écran
+        'overflow': 'auto'  # Permet le scroll si nécessaire
     },
     children=[
         # Bandeau du haut
@@ -272,12 +274,16 @@ app.layout = html.Div(
                 'display': 'flex',
                 'alignItems': 'center',
                 'justifyContent': 'space-between',
+                'flex-wrap': 'wrap',  # Permet le passage à la ligne si nécessaire
                 'backgroundColor': '#333',
                 'color': 'white',
-                'padding': '10px',
+                'padding': '2vw',  # Adapte le padding selon l’écran
                 'border-radius': '10px',
-                'margin-bottom': '20px'
-            },
+                'margin-bottom': '20px',
+                'width': '100%',  # Prend toute la largeur
+                'max-width': '1200px',  # Évite une largeur excessive sur grand écran
+                'margin': 'auto'  # Centre l'élément dans la page
+    },
             children=[
                 html.Img(src=uci_logo, style={'height': '60px', 'margin-right': '20px'}),
 
