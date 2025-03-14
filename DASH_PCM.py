@@ -251,7 +251,7 @@ team_images = {
 }
 
 # Création de l'application Dash
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, "/assets/style.css"])
 
 background_image = dash.get_asset_url("fonds_page.jpeg")
 uci_logo = dash.get_asset_url("logo_uci.jpg")
